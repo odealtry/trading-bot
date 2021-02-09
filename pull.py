@@ -13,10 +13,6 @@ ts = TimeSeries(key=api_key, output_format='pandas')
 
 data, meta_data = ts.get_intraday(symbol=ticker, interval='60min', outputsize='full');
 
-# print(ticker)
-# print(meta_data)
-# print(data)
-
 # calculating simple moving average from a period of 20 days
 period = 480
 
@@ -26,7 +22,12 @@ ti_data, ti_meta_data = ti.get_sma(symbol=ticker, interval='60min',
                         time_period=period, series_type='close')
 
 df1 = ti_data
-df2 = data['4. close']
+# equalising dataframe sizes as ti_data needs the first period for calculation
+df2 = data['4. close'].iloc[period-1::]
 
-print(df1)
-print(df2)
+
+df2.index = df1.index
+
+concatenated_df = pd.concat([df1, df2], axis=1)
+
+print(concatenated_df)
