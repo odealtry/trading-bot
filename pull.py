@@ -2,7 +2,6 @@ import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 from alpha_vantage.techindicators import TechIndicators
 import sys
-import random
 import config
 
 ticker = str(sys.argv[1])
@@ -25,9 +24,15 @@ df1 = ti_data
 # equalising dataframe sizes as ti_data needs the first period for calculation
 df2 = data['4. close'].iloc[period-1::]
 
-
 df2.index = df1.index
 
 concatenated_df = pd.concat([df1, df2], axis=1)
 
 print(concatenated_df)
+
+concatenated_df.to_json(path_or_buf='sample_data.json',
+    orient='records', date_format=None,
+    double_precision=10,
+    force_ascii=True,
+    date_unit='ms',
+    lines=True)
