@@ -1,0 +1,3 @@
+import moving_average_calculation
+
+print(moving_average_calculation.dataframe)
