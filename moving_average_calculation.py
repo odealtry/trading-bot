@@ -3,7 +3,6 @@ from alpha_vantage.timeseries import TimeSeries
 from alpha_vantage.techindicators import TechIndicators
 import sys
 import config
-# import AAPL_data.json
 
 # ticker = str(sys.argv[1])
 
