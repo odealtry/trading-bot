@@ -28,15 +28,19 @@ ti = TechIndicators(key=api_key, output_format='pandas')
 ti_data, ti_meta_data = ti.get_sma(symbol=ticker, interval='daily',
                         time_period=period, series_type='close')
 
-df1 = ti_data
+df1 = ti_data.iloc[::-1]
 # reversing df2 row order and equalising sizes of df1 and df2:
-df2 = (data['5. adjusted close'].iloc[::-1]).iloc[period-1::]
+df2 = data['5. adjusted close'].iloc[:-(period-1)]
 
-df2.index = df1.index
+df1.index = df2.index
 
 concatenated_df = pd.concat([df1, df2], axis=1)
 
-# reducing dataframe size to 251, average number of annual trading days
-annual_data = concatenated_df[-251:]
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(annual_data)
+
+# reducing dataframe size to 100 and passing it to volatility_calculation.py:
+closes_with_sma = concatenated_df[:100]
+
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(closes_with_sma)
+
+# closes_with_sma = pd.read_json('AAPL_data.json')
