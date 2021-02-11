@@ -41,13 +41,24 @@ import config
 
 concatenated_df = pd.read_json('data.json')
 
-# analysing data for stock split events:
+# analysing data for stock split/merge events:
 split_day = (concatenated_df.loc[concatenated_df['8. split coefficient'] != 1])
+split_coefficient = int(split_day['8. split coefficient'])
 
-print(split_day.index)
+# pre_split = concatenated_df.loc[lambda df: df['A'] > 0, :]
 # then adjust data prior to that entry according to its value.
 
-split_coefficient = int(split_day['8. split coefficient'])
+split_date = (split_day.index[0])
+
+unadjusted_values = concatenated_df[split_date:]
+
+print(unadjusted_values)
+
+unadjusted_values['2. high'] =  unadjusted_values['2. high'] / split_coefficient
+
+print(unadjusted_values)
+
+# inplace=True for destructive operations
 
 # print(concatenated_df[split_day:])
 # print(concatenated_df[split_day])
