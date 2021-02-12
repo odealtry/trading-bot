@@ -50,7 +50,9 @@ split_coefficient = int(split_day['8. split coefficient'])
 
 split_date = (split_day.index[0])
 
-unadjusted_values = concatenated_df[split_date:]
+values_with_split = concatenated_df[split_date:]
+
+unadjusted_values = values_with_split.iloc[1:]
 
 print(unadjusted_values)
 
