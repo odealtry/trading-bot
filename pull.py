@@ -45,30 +45,33 @@ concatenated_df = pd.read_json('data.json')
 split_day = (concatenated_df.loc[concatenated_df['8. split coefficient'] != 1])
 split_coefficient = int(split_day['8. split coefficient'])
 
-# pre_split = concatenated_df.loc[lambda df: df['A'] > 0, :]
 # then adjust data prior to that entry according to its value.
 
 split_date = (split_day.index[0])
 
 values_with_split = concatenated_df[split_date:]
 
-unadjusted_values = values_with_split.iloc[1:]
+pre_split_data = values_with_split.iloc[1:]
 
-print(unadjusted_values)
+# print(pre_split_data)
 
-unadjusted_values['2. high'] =  unadjusted_values['2. high'] / split_coefficient
+pre_split_data['2. high'] =  pre_split_data['2. high'] / split_coefficient
+pre_split_data['4. close'] =  pre_split_data['4. close'] / split_coefficient
 
-print(unadjusted_values)
+post_split = concatenated_df[:split_date]
+adjusted_pre_split = pre_split_data
+
+# print(post_split)
+# print(adjusted_pre_split)
+
+frames = [post_split, adjusted_pre_split]
+result = pd.concat(frames)
+
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(result)
 
 # inplace=True for destructive operations
-
-# print(concatenated_df[split_day:])
-# print(concatenated_df[split_day])
 
 # reducing dataframe to annual size:
 # annual_data = concatenated_df[:251]
 
-
-
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    # print(closes_with_sma)
