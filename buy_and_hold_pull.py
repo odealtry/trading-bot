@@ -8,27 +8,25 @@ from alpha_vantage.timeseries import TimeSeries
 import sys
 import config
 
-# ticker = str(sys.argv[1])
+ticker = str(sys.argv[1])
 
-# period = 50
+api_key = config.AlphaVantageAPIKey
 
-# api_key = config.AlphaVantageAPIKey
+ts = TimeSeries(key=api_key, output_format='pandas')
 
-# ts = TimeSeries(key=api_key, output_format='pandas')
+ts_data, ts_meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full');
 
-# data, meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full');
+# selecting the desired columns
 
-# # reversing df1 row order and equalising df sizes:
+df1 = ts_data['2. high']
+df2 = ts_data['4. close']
+df3 = ts_data['8. split coefficient']
 
-# df1 = data['4. close'].iloc[:-(period-1)]
-# df2 = data['2. high'].iloc[:-(period-1)]
-# df3 = data['8. split coefficient'].iloc[:-(period-1)]
+df1.index = df2.index = df3.index
 
-# df1.index = df2.index = df3.index
+concatenated_df = pd.concat([df1, df2, df3], axis=1)
 
-# concatenated_df = pd.concat([df1, df2, df3], axis=1)
-
-concatenated_df = pd.read_json('buy_and_hold_data.json')
+# concatenated_df = pd.read_json('buy_and_hold_data.json')
 
 
 # analysing data for stock split/merge events:
@@ -45,7 +43,7 @@ new_df = concatenated_df.copy()
 post_split_data = new_df[:split_date]
 
 pre_split_data = new_df[split_date:]
-# removing the split day so as not to change its data:
+# removing the split day so as not to change its value:
 pre_split_data = pre_split_data[1:]
 
 pre_split_data.loc[:, '2. high'] = pre_split_data.loc[:, '2. high'] / split_coefficient
@@ -54,11 +52,15 @@ pre_split_data.loc[:, '4. close'] = pre_split_data.loc[:, '4. close'] / split_co
 frames = [post_split_data, pre_split_data]
 result = pd.concat(frames)
 
-with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(result)
-
-# print(result)
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(result)
 
 # reducing dataframe to annual size:
-# annual_data = concatenated_df[:251]
+buy_and_hold_data = result[:251]
+
+print(buy_and_hold_data)
+
+# todo: implement logic that finds and saves the maximum value
+# from the 'high' column and triggers a buy signal once it is exceeded.
+# then
 
