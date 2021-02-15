@@ -30,40 +30,32 @@ import config
 
 concatenated_df = pd.read_json('buy_and_hold_data.json')
 
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(concatenated_df)
 
 # analysing data for stock split/merge events:
 split_day = (concatenated_df.loc[concatenated_df['8. split coefficient'] != 1])
+split_date = (split_day.index[0])
 split_coefficient = int(split_day['8. split coefficient'])
 
 # then adjust data prior to that entry according to its value.
 # a copy of concatenated_df will need to be made,
-# and .loc and mask used for accessing and changing data.
+# and .loc used for accessing and changing data.
 
 new_df = concatenated_df.copy()
 
-split_date = (split_day.index[0])
-
 post_split_data = new_df[:split_date]
 
-print(post_split_data)
-
 pre_split_data = new_df[split_date:]
+# removing the split day so as not to change its data:
+pre_split_data = pre_split_data[1:]
 
-print(pre_split_data)
+pre_split_data.loc[:, '2. high'] = pre_split_data.loc[:, '2. high'] / split_coefficient
+pre_split_data.loc[:, '4. close'] = pre_split_data.loc[:, '4. close'] / split_coefficient
 
-# pre_split_data['2. high'] =  pre_split_data['2. high'] / split_coefficient
-# pre_split_data['4. close'] =  pre_split_data['4. close'] / split_coefficient
+frames = [post_split_data, pre_split_data]
+result = pd.concat(frames)
 
-# post_split = concatenated_df[:split_date]
-# adjusted_pre_split = pre_split_data
-
-# frames = [post_split, adjusted_pre_split]
-# result = pd.concat(frames)
-
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(result)
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(result)
 
 # print(result)
 
