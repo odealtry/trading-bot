@@ -55,11 +55,7 @@ result = pd.concat(frames)
 # reducing dataframe to annual size:
 buy_and_hold_data = result[:251]
 
-# buy_and_hold_data = pd.read_json('buy_and_hold_data.json')
+# buy_and_hold_data = pd.read_json('data/buy_and_hold_data.json')
 
-print(buy_and_hold_data)
-
-# todo: implement logic that finds and saves the maximum value
-# from the 'high' column and triggers a buy signal once it is exceeded.
-# then
+# print(buy_and_hold_data)
 
