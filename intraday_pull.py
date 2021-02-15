@@ -20,12 +20,16 @@ ts = TimeSeries(key=api_key, output_format='pandas')
 ts_data, ts_meta_data = ts.get_intraday(symbol=ticker, interval='5min',
                         outputsize='full');
 
+# equalising df sizes:
 df1 = ti_data
 df2 = ts_data['4. close'].iloc[period-1::]
 
+# equalising df indexes:
 df1.index = df2.index
 
-concatenated_df = pd.concat([df1, df2], axis=1)
+intraday_data = pd.concat([df1, df2], axis=1)
 
-with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(concatenated_df)
+# intraday_data = pd.read_json('intraday_data.json')
+
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(intraday_data)

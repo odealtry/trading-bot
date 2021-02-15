@@ -26,9 +26,6 @@ df1.index = df2.index = df3.index
 
 concatenated_df = pd.concat([df1, df2, df3], axis=1)
 
-# concatenated_df = pd.read_json('buy_and_hold_data.json')
-
-
 # analysing data for stock split/merge events:
 split_day = (concatenated_df.loc[concatenated_df['8. split coefficient'] != 1])
 split_date = (split_day.index[0])
@@ -57,6 +54,8 @@ result = pd.concat(frames)
 
 # reducing dataframe to annual size:
 buy_and_hold_data = result[:251]
+
+# buy_and_hold_data = pd.read_json('buy_and_hold_data.json')
 
 print(buy_and_hold_data)
 
