@@ -5,7 +5,7 @@
 
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
-from alpha_vantage.techindicators import TechIndicators
+
 import sys
 import config
 
@@ -53,24 +53,19 @@ values_with_split = concatenated_df[split_date:]
 
 pre_split_data = values_with_split.iloc[1:]
 
-# print(pre_split_data)
-
 pre_split_data['2. high'] =  pre_split_data['2. high'] / split_coefficient
 pre_split_data['4. close'] =  pre_split_data['4. close'] / split_coefficient
 
 post_split = concatenated_df[:split_date]
 adjusted_pre_split = pre_split_data
 
-# print(post_split)
-# print(adjusted_pre_split)
-
 frames = [post_split, adjusted_pre_split]
 result = pd.concat(frames)
 
-with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(result)
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(result)
 
-# inplace=True for destructive operations
+print(result)
 
 # reducing dataframe to annual size:
 # annual_data = concatenated_df[:251]
