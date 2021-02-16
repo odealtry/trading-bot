@@ -37,8 +37,7 @@ class BuyAndHoldPull:
         pre_split_data.loc[:, '4. close'] = pre_split_data.loc[:, '4. close'] / split_coefficient
         frames = [post_split_data, pre_split_data]
         result = pd.concat(frames)
-        # reducing dataframe to annual size:
-        self.data = result[:251]
+        self.data = result
 
 
 # buy_and_hold_data = pd.read_json('data/buy_and_hold_data.json')
@@ -48,5 +47,5 @@ tsla.Pull()
 
 buy_and_hold_data = tsla.data
 
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(buy_and_hold_data)
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(buy_and_hold_data)
