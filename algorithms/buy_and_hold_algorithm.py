@@ -23,4 +23,4 @@ print(max_entry)
 
 print(max_close)
 
-class StockEvaluation(stock):
+# class StockEvaluation(stock):

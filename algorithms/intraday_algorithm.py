@@ -4,11 +4,9 @@ import config
 import numpy as np
 import moving_average_calculation
 
-api_key = config.AlphaVantageAPIKey
+intraday_data = pd.read_json('data/intraday_data.json')
 
-closes_with_sma = moving_average_calculation.closes_with_sma
-
-daily_close = closes_with_sma['5. adjusted close']
+daily_close = intraday_data['5. adjusted close']
 
 month_of_closes = daily_close[0:31]
 

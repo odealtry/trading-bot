@@ -1,5 +1,5 @@
 # This file pulls minute-by-minute closes and calculates
-# an hourly moving average, returning a df combining
+# an hourly exponential moving average, returning a df combining
 # the two.
 
 import pandas as pd
@@ -16,7 +16,7 @@ class IntradayPull:
         api_key = config.AlphaVantageAPIKey
         period = 60
         ti = TechIndicators(key=api_key, output_format='pandas')
-        ti_data, ti_meta_data = ti.get_sma(symbol=self.ticker, interval='1min',
+        ti_data, ti_meta_data = ti.get_ema(symbol=self.ticker, interval='1min',
                                 time_period=period, series_type='close')
         ts = TimeSeries(key=api_key, output_format='pandas')
         ts_data, ts_meta_data = ts.get_intraday(symbol=self.ticker, interval='1min',
