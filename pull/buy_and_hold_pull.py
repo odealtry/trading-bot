@@ -4,10 +4,7 @@
 
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
-import sys
 import config
-
-# ticker = str(sys.argv[1])
 
 class BuyAndHoldPull:
     def __init__(self, ticker):
@@ -42,17 +39,14 @@ class BuyAndHoldPull:
         result = pd.concat(frames)
         # reducing dataframe to annual size:
         self.data = result[:251]
-        # self.data.append(buy_and_hold_data)
 
-
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(result)
 
 # buy_and_hold_data = pd.read_json('data/buy_and_hold_data.json')
 
-
 tsla = BuyAndHoldPull('TSLA')
 tsla.Pull()
+
 buy_and_hold_data = tsla.data
 
-print(buy_and_hold_data)
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(buy_and_hold_data)
