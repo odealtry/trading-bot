@@ -18,3 +18,9 @@ max_close = max_entry['4. close']
 # passing the stock ticker as an arg.
 # the logic for logging this purchase in holdings
 # can go in a separate file.
+
+print(max_entry)
+
+print(max_close)
+
+class StockEvaluation(stock):
