@@ -12,7 +12,7 @@ import config
 class BuyAndHoldPull:
     def __init__(self, ticker):
         self.ticker = ticker
-        self.data = []
+        self.data = pd.DataFrame
 
     def Pull(self):
         api_key = config.AlphaVantageAPIKey
@@ -41,8 +41,8 @@ class BuyAndHoldPull:
         frames = [post_split_data, pre_split_data]
         result = pd.concat(frames)
         # reducing dataframe to annual size:
-        buy_and_hold_data = result[:251]
-        self.data.append(buy_and_hold_data)
+        self.data = result[:251]
+        # self.data.append(buy_and_hold_data)
 
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
