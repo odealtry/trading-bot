@@ -1,3 +1,7 @@
+# This file pulls minute-by-minute closes and calculates
+# an hourly moving average, returning a df combining
+# the two.
+
 import pandas as pd
 from alpha_vantage.techindicators import TechIndicators
 from alpha_vantage.timeseries import TimeSeries
@@ -31,8 +35,8 @@ import sys
 
 intraday_data = pd.read_json('data/intraday_data.json')
 
-# print(intraday_data)
+print(intraday_data)
 
-with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(intraday_data)
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(intraday_data)
 
