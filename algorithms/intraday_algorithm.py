@@ -5,9 +5,6 @@ intraday_data = pd.read_json('data/intraday_data.json')
 
 intraday_data = intraday_data[::-1]
 
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(intraday_data)
-
 print(intraday_data)
 
 pos = 0
