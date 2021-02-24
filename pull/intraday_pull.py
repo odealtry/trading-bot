@@ -33,7 +33,6 @@ class IntradayPull:
 
 ticker = input("Please enter a stock ticker for intraday strategy: ")
 
-
 stock = IntradayPull(ticker)
 
 stock.Pull()
