@@ -5,6 +5,7 @@
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 import config
+import sys
 
 class BuyAndHoldPull:
     def __init__(self, ticker):
@@ -42,10 +43,13 @@ class BuyAndHoldPull:
 
 # buy_and_hold_data = pd.read_json('data/buy_and_hold_data.json')
 
-tsla = BuyAndHoldPull('TSLA')
-tsla.Pull()
+ticker = input("Please enter a stock ticker for buy and hold strategy: ")
 
-buy_and_hold_data = tsla.data
+stock = BuyAndHoldPull(ticker)
+
+stock.Pull()
+
+buy_and_hold_data = stock.data
 
 print(buy_and_hold_data)
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):

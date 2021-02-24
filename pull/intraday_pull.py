@@ -6,6 +6,7 @@ import pandas as pd
 from alpha_vantage.techindicators import TechIndicators
 from alpha_vantage.timeseries import TimeSeries
 import config
+import sys
 
 class IntradayPull:
     def __init__(self, ticker):
@@ -30,10 +31,14 @@ class IntradayPull:
 
 # intraday_data = pd.read_json('data/intraday_data.json')
 
-tsla = IntradayPull('TSLA')
-tsla.Pull()
+ticker = input("Please enter a stock ticker for intraday strategy: ")
 
-intraday_data = tsla.data
+
+stock = IntradayPull(ticker)
+
+stock.Pull()
+
+intraday_data = stock.data
 
 print(intraday_data)
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
