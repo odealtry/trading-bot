@@ -38,7 +38,7 @@ for i in buy_and_hold_data.index:
             pos = 1
             print("Buying now at " + str(bp))
 
-    elif (close < historic_high):
+    elif (close < (historic_high * 0.9)):
         print("Selloff")
         if(pos == 1):
             sp = close
