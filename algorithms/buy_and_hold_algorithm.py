@@ -34,23 +34,24 @@ for i in buy_and_hold_data.index:
         historic_high = close
         print("Breakout")
         if (pos == 0):
-            bp = close
+            buy_price = close
             pos = 1
-            print("Buying now at " + str(bp))
+            print("Buying now at " + str(buy_price))
 
     elif (close < (historic_high * 0.9)):
         print("Selloff")
         if(pos == 1):
-            sp = close
+            sell_price = close
             pos = 0
-            print("Selling now at " + str(sp))
-            pc = (sp / bp - 1) * 100
+            print("Selling now at " + str(sell_price))
+            pc = (sell_price / buy_price - 1) * 100
             percent_change.append(pc)
+
     if(num == buy_and_hold_data['4. close'].count() - 1 and pos == 1):
-        sp = close
+        sell_price = close
         pos = 0
-        print("Selling now at " + str(sp))
-        pc = (sp / bp - 1) * 100
+        print("Selling now at " + str(sell_price))
+        pc = (sell_price / buy_price - 1) * 100
         percent_change.append(pc)
 
     num += 1
@@ -88,15 +89,9 @@ else:
     max_loss = "none"
     ratio = "infinite"
 
-if(gains_count > 0 or losses_count > 0):
-    batting_average = gains_count / (gains_count + losses_count)
-else:
-    batting_average = 0
-
 
 print()
-print("Test period starting" + str(buy_and_hold_data.index[0]) + ", having executed " + str(gains_count + losses_count) + " trades.")
-print("Batting Average: " + str(batting_average))
+print("Test period starting at " + str(buy_and_hold_data.index[0]) + " for a total of " + str(gains_count + losses_count) + " trades.")
 print("Gain/Loss Ratio: " + str(ratio))
 print("Average Gain: " + str(average_gain))
 print("Average Loss: " + str(average_loss))
