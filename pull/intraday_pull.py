@@ -23,7 +23,7 @@ class IntradayPull:
         ts_data, ts_meta_data = ts.get_intraday(symbol=self.ticker, interval='1min',
                                 outputsize='full');
         # equalising df sizes:
-        df1 = ti_data
+        df1 = ti_data[::-1]
         df2 = ts_data['4. close'].iloc[period-1::]
         # equalising df indexes:
         df1.index = df2.index

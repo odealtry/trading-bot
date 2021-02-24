@@ -8,9 +8,9 @@ buy_and_hold_data = pd.read_json('data/buy_and_hold_data.json')
 
 # print(buy_and_hold_data)
 
-historic_data = buy_and_hold_data[::-1]
+buy_and_hold_data = buy_and_hold_data[::-1]
 
-# print(historic_data)
+# print(buy_and_hold_data)
 
 # max_entry = buy_and_hold_data.loc[buy_and_hold_data['4. close'].idxmax()]
 
@@ -28,7 +28,7 @@ pos = 0
 num = 0
 percent_change = []
 
-for i in historic_data.index:
+for i in buy_and_hold_data.index:
     close = buy_and_hold_data['4. close'][i]
     if (close > historic_high):
         historic_high = close
@@ -46,7 +46,7 @@ for i in historic_data.index:
             print("Selling now at " + str(sp))
             pc = (sp / bp - 1) * 100
             percent_change.append(pc)
-    if(num == historic_data['4. close'].count() - 1 and pos == 1):
+    if(num == buy_and_hold_data['4. close'].count() - 1 and pos == 1):
         sp = close
         pos = 0
         print("Selling now at " + str(sp))
@@ -95,7 +95,7 @@ else:
 
 
 print()
-print("Test Period: " + str(historic_data.index[0]) + "Sample Size: " + str(gains_count + losses_count) + " trades.")
+print("Test period starting" + str(buy_and_hold_data.index[0]) + ", having executed " + str(gains_count + losses_count) + " trades.")
 print("Batting Average: " + str(batting_average))
 print("Gain/Loss Ratio: " + str(ratio))
 print("Average Gain: " + str(average_gain))
