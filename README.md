@@ -16,6 +16,7 @@ This strategy detects and purchases when a stock is breaking out of its historic
 **Intraday**
 This strategy compares the stock price to an hourly exponential moving average on a minute by minute basis, buying if the close goes under the EMA and selling when the close exceeds the EMA. This high frequency-style strategy benefits from greater precision, both in obtaining up-to-date stock information, and accessing the EMA, a more sophisticated metric of a stock's current value. This strategy has yielded some interesting initial results.
 
+##
 Please get in touch if you have any suggestions for ways to improve my strategies - I'd love to collaborate!
 
 This project draws on information from numerous different sources, but special thanks are due to [Richard Moglen](https://www.youtube.com/channel/UCYqMAKiU3tFijWnyqAxG4Cg), [Derrick Sherrill](https://www.youtube.com/channel/UCJHs6RO1CSM85e8jIMmCySw), and [Trade Options With Me](https://www.youtube.com/channel/UCb0_-wF6yzHvjwkngWwBVTw), whose channels have been invaluable in putting me on the right path.
