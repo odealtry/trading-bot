@@ -18,7 +18,10 @@ percent_change = []
 # new data jsons.
 
 buys = []
+buy_times = []
 sells = []
+sell_times = []
+
 
 for i in intraday_data.index:
     close = intraday_data['4. close'][i]
@@ -30,7 +33,8 @@ for i in intraday_data.index:
             buy_price = close
             pos = 1
             print("Buying now at " + str(buy_price))
-            buys.append([i, close])
+            buys.append(close)
+            buy_times.append(i)
 
     elif(close > (ema * 1.01)):
         print("Uptick")
@@ -40,7 +44,8 @@ for i in intraday_data.index:
             print("Selling now at " + str(sell_price))
             pc = (sell_price / buy_price - 1) * 100
             percent_change.append(pc)
-            sells.append([i, close])
+            sells.append(close)
+            sell_times.append(i)
 
     if(num == intraday_data['4. close'].count() - 1 and pos == 1):
         sell_price = close
@@ -97,13 +102,15 @@ print("Max Loss: " + str(max_loss))
 print("TOTAL RETURN OVER " + str(gains_count + losses_count) + " TRADES: " + str(total_return) + "%")
 print()
 print()
-print("Stock was purchased at the following points:")
-print(buys)
-print("Stock was sold at the following points:")
-print(sells)
 
-buys = pd.DataFrame(buys, columns=['Bought at', 'Close'])
-sells = pd.DataFrame(sells, columns=['Sold at', 'Close'])
+buy_index = pd.Index(buy_times)
+sell_index = pd.Index(sell_times)
+
+buys = pd.DataFrame(buys, index=[buy_index])
+sells = pd.DataFrame(sells, index=[sell_index])
+
+print(buys)
+print(sells)
 
 buys.to_json(path_or_buf='data/intraday/intraday_buys.json')
 sells.to_json(path_or_buf='data/intraday/intraday_sells.json')
