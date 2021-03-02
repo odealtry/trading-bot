@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-intraday_data = pd.read_json('data/intraday_data.json')
+intraday_data = pd.read_json('data/intraday/intraday_data.json')
 
 intraday_data = intraday_data[::-1]
 
@@ -10,6 +10,15 @@ print(intraday_data)
 pos = 0
 num = 0
 percent_change = []
+
+# to plot buy/sell signals against stock info, I need to persist
+# information at the moment the signal is generated.
+# For the moment, try appending df rows to a list.
+# create two dfs of buy and sell signals, and save them to
+# new data jsons.
+
+buys = []
+sells = []
 
 for i in intraday_data.index:
     close = intraday_data['4. close'][i]
@@ -21,6 +30,7 @@ for i in intraday_data.index:
             buy_price = close
             pos = 1
             print("Buying now at " + str(buy_price))
+            buys.append([i, close])
 
     elif(close > (ema * 1.01)):
         print("Uptick")
@@ -30,6 +40,7 @@ for i in intraday_data.index:
             print("Selling now at " + str(sell_price))
             pc = (sell_price / buy_price - 1) * 100
             percent_change.append(pc)
+            sells.append([i, close])
 
     if(num == intraday_data['4. close'].count() - 1 and pos == 1):
         sell_price = close
@@ -85,3 +96,14 @@ print("Max Return: " + str(max_return))
 print("Max Loss: " + str(max_loss))
 print("TOTAL RETURN OVER " + str(gains_count + losses_count) + " TRADES: " + str(total_return) + "%")
 print()
+print()
+print("Stock was purchased at the following points:")
+print(buys)
+print("Stock was sold at the following points:")
+print(sells)
+
+buys = pd.DataFrame(buys, columns=['Bought at', 'Close'])
+sells = pd.DataFrame(sells, columns=['Sold at', 'Close'])
+
+buys.to_json(path_or_buf='data/intraday/intraday_buys.json')
+sells.to_json(path_or_buf='data/intraday/intraday_sells.json')

@@ -1,6 +1,6 @@
 import pandas as pd
 
-buy_and_hold_data = pd.read_json('data/buy_and_hold_data.json')
+buy_and_hold_data = pd.read_json('data/buy_and_hold/buy_and_hold_data.json')
 
 buy_and_hold_data = buy_and_hold_data[::-1]
 
