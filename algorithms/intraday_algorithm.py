@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import datetime as dt
 
 intraday_data = pd.read_json('data/intraday/intraday_data.json')
 
@@ -21,7 +22,6 @@ buys = []
 buy_times = []
 sells = []
 sell_times = []
-
 
 for i in intraday_data.index:
     close = intraday_data['4. close'][i]
@@ -106,11 +106,41 @@ print()
 buy_index = pd.Index(buy_times)
 sell_index = pd.Index(sell_times)
 
-buys = pd.DataFrame(buys, index=[buy_index])
-sells = pd.DataFrame(sells, index=[sell_index])
+buys = pd.DataFrame(buys, index=[buy_index], columns=['close'])
+sells = pd.DataFrame(sells, index=[sell_index], columns=['close'])
 
 print(buys)
 print(sells)
 
 buys.to_json(path_or_buf='data/intraday/intraday_buys.json')
 sells.to_json(path_or_buf='data/intraday/intraday_sells.json')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
