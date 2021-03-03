@@ -1,15 +1,24 @@
 import pandas as pd
 import numpy as np
+import datetime as dt
 
-intraday_data = pd.read_json('data/intraday_data.json')
+intraday_data = pd.read_json('data/intraday/intraday_data.json')
 
 intraday_data = intraday_data[::-1]
+
+intraday_data['buy'] = False
+intraday_data['sell'] = False
 
 print(intraday_data)
 
 pos = 0
 num = 0
 percent_change = []
+
+# to plot buy/sell signals against stock info, I need to persist
+# information at the moment the signal is generated.
+# add new 'buy' and 'sell' columns, set to false by default.
+
 
 for i in intraday_data.index:
     close = intraday_data['4. close'][i]
@@ -20,6 +29,7 @@ for i in intraday_data.index:
         if(pos == 0):
             buy_price = close
             pos = 1
+            intraday_data['buy'][i] = True
             print("Buying now at " + str(buy_price))
 
     elif(close > (ema * 1.01)):
@@ -27,6 +37,7 @@ for i in intraday_data.index:
         if(pos == 1):
             sell_price = close
             pos = 0
+            intraday_data['sell'][i] = True
             print("Selling now at " + str(sell_price))
             pc = (sell_price / buy_price - 1) * 100
             percent_change.append(pc)
@@ -85,3 +96,11 @@ print("Max Return: " + str(max_return))
 print("Max Loss: " + str(max_loss))
 print("TOTAL RETURN OVER " + str(gains_count + losses_count) + " TRADES: " + str(total_return) + "%")
 print()
+print()
+
+intraday_data.to_json(path_or_buf='data/intraday/intraday_data.json')
+
+print("Stock buy and sell information has been passed back to intraday_data.json")
+
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(intraday_data)
