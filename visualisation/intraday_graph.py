@@ -11,10 +11,6 @@ intraday_data = pd.read_json('data/intraday/intraday_data.json')
 
 # print(intraday_data)
 
-# intraday_data.plot()
-# plt.title('Intraday Times Series for TSLA (1 min)')
-# plt.show()
-
 buys = []
 sells =[]
 
@@ -24,5 +20,20 @@ for i in intraday_data.index:
     elif intraday_data['sell'][i] == True:
         sells.append(i)
 
-print(buys)
-print(sells)
+intraday_data.plot()
+plt.title('Intraday Times Series for TSLA (1 min)')
+
+for date in buys:
+    label = 'Buy'
+    plt.annotate(label, xy=(date, intraday_data['4. close'][date]),
+        arrowprops=dict(facecolor='black', headwidth=4, width=2, headlength=4),
+        horizontalalignment='left', verticalalignment='top')
+
+for date in sells:
+    label = 'Sell'
+    plt.annotate(label, xy=(date, intraday_data['4. close'][date]),
+        arrowprops=dict(facecolor='black', headwidth=4, width=2, headlength=4),
+        horizontalalignment='left', verticalalignment='top')
+
+
+plt.show()

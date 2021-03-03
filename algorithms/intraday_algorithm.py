@@ -100,34 +100,7 @@ print()
 
 intraday_data.to_json(path_or_buf='data/intraday/intraday_data.json')
 
-print("Stock buy and sell information has been passed back to buy_and_hold_data.json.")
+print("Stock buy and sell information has been passed back to intraday_data.json")
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(intraday_data)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
