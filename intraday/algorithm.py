@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 
-intraday_data = pd.read_json('data/intraday/intraday_data.json')
+intraday_data = pd.read_json('intraday/intraday_data.json')
 
 intraday_data = intraday_data[::-1]
 
@@ -98,7 +98,7 @@ print("TOTAL RETURN OVER " + str(gains_count + losses_count) + " TRADES: " + str
 print()
 print()
 
-intraday_data.to_json(path_or_buf='data/intraday/intraday_data.json')
+intraday_data.to_json(path_or_buf='intraday/intraday_data.json')
 
 print("Stock buy and sell information has been passed back to intraday_data.json")
 

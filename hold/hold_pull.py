@@ -5,7 +5,6 @@
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 import config
-import sys
 
 class BuyAndHoldPull:
     def __init__(self, ticker):
