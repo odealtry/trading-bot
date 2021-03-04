@@ -33,7 +33,7 @@ for date in buys:
 for date in sells:
     label = 'Sell'
     plt.annotate(label, xy=(date, intraday_data['4. close'][date]),
-       xycoords='data', xytext=(-3, 30), textcoords='offset points',
+       xycoords='data', xytext=(3, 30), textcoords='offset points',
        arrowprops=dict(facecolor='red', shrink=0.05, width=0.5, headwidth=4),
        horizontalalignment='right', verticalalignment='bottom')
 
