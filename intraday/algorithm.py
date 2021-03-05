@@ -13,10 +13,13 @@ pos = 0
 num = 0
 percent_change = []
 
-# to plot buy/sell signals against stock info, I need to persist
-# information at the moment the signal is generated.
-# add new 'buy' and 'sell' columns, set to false by default.
 
+# I need to establish definitively that the algorithm isn't obtaining
+# an unfair advantage that is boosting its performance.
+# I am suspicious of the ema: specifically, that it is
+# accessing information from the future in calculating
+# its average - see buys at market close that are triggered
+# when the ema reflects the following morning's prices.
 
 for i in intraday_data.index:
     close = intraday_data['4. close'][i]
