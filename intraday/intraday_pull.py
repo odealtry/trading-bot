@@ -12,6 +12,7 @@ class IntradayPull:
     def __init__(self, ticker):
         self.ticker = ticker
         self.data = pd.DataFrame
+        self.ema = pd.DataFrame
 
     def Pull(self):
         api_key = config.AlphaVantageAPIKey
@@ -28,6 +29,7 @@ class IntradayPull:
         # equalising df indexes:
         df1.index = df2.index
         self.data = pd.concat([df1, df2], axis=1)
+        self.ema = df1
 
 # intraday_data = pd.read_json('data/intraday_data.json')
 
@@ -38,6 +40,10 @@ stock = IntradayPull(ticker)
 stock.Pull()
 
 intraday_data = stock.data
+
+ema = stock.ema
+
+# print(ema)
 
 print(intraday_data)
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):

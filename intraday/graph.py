@@ -1,10 +1,7 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import datetime
 
-intraday_data = pd.read_json('data/intraday/intraday_data.json')
-
+intraday_data = pd.read_json('data_with_buys.json')
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(intraday_data)
@@ -33,12 +30,8 @@ for date in buys:
 for date in sells:
     label = 'Sell'
     plt.annotate(label, xy=(date, intraday_data['4. close'][date]),
-       xycoords='data', xytext=(-3, 30), textcoords='offset points',
+       xycoords='data', xytext=(3, 30), textcoords='offset points',
        arrowprops=dict(facecolor='red', shrink=0.05, width=0.5, headwidth=4),
        horizontalalignment='right', verticalalignment='bottom')
-
-# (label, xy=(date, intraday_data['4. close'][date]),
-#         arrowprops=dict(facecolor='black', headwidth=4, width=2, headlength=4),
-#         horizontalalignment='left', verticalalignment='top')
 
 plt.show()

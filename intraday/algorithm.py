@@ -1,34 +1,46 @@
 import pandas as pd
 
-buy_and_hold_data = pd.read_json('data/buy_and_hold/buy_and_hold_data.json')
+intraday_data = pd.read_json('data.json')
 
-buy_and_hold_data = buy_and_hold_data[::-1]
+intraday_data = intraday_data[::-1]
 
-historic_high = 0
+intraday_data['buy'] = False
+intraday_data['sell'] = False
+
+print(intraday_data)
+
 pos = 0
 num = 0
 percent_change = []
 
-for i in buy_and_hold_data.index:
-    close = buy_and_hold_data['4. close'][i]
-    if (close > historic_high):
-        historic_high = close
-        print("Breakout")
-        if (pos == 0):
+# to plot buy/sell signals against stock info, I need to persist
+# information at the moment the signal is generated.
+# add new 'buy' and 'sell' columns, set to false by default.
+
+
+for i in intraday_data.index:
+    close = intraday_data['4. close'][i]
+    ema = intraday_data['EMA'][i]
+
+    if(close < (ema * 0.99)):
+        print("Undervalued")
+        if(pos == 0):
             buy_price = close
             pos = 1
+            intraday_data['buy'][i] = True
             print("Buying now at " + str(buy_price))
 
-    elif (close < (historic_high * 0.9)):
-        print("Selloff")
+    elif(close > (ema * 1.01)):
+        print("Uptick")
         if(pos == 1):
             sell_price = close
             pos = 0
+            intraday_data['sell'][i] = True
             print("Selling now at " + str(sell_price))
             pc = (sell_price / buy_price - 1) * 100
             percent_change.append(pc)
 
-    if(num == buy_and_hold_data['4. close'].count() - 1 and pos == 1):
+    if(num == intraday_data['4. close'].count() - 1 and pos == 1):
         sell_price = close
         pos = 0
         print("Selling now at " + str(sell_price))
@@ -36,6 +48,8 @@ for i in buy_and_hold_data.index:
         percent_change.append(pc)
 
     num += 1
+
+print(percent_change)
 
 gains = 0
 gains_count = 0
@@ -72,7 +86,7 @@ else:
 
 
 print()
-print("Test period starting at " + str(buy_and_hold_data.index[0]) + " for a total of " + str(gains_count + losses_count) + " trades.")
+print("Test period starting at " + str(intraday_data.index[0]) + " for a total of " + str(gains_count + losses_count) + " trades.")
 print("Gain/Loss Ratio: " + str(ratio))
 print("Average Gain: " + str(average_gain))
 print("Average Loss: " + str(average_loss))
@@ -80,3 +94,11 @@ print("Max Return: " + str(max_return))
 print("Max Loss: " + str(max_loss))
 print("TOTAL RETURN OVER " + str(gains_count + losses_count) + " TRADES: " + str(total_return) + "%")
 print()
+print()
+
+intraday_data.to_json(path_or_buf='data_with_buys.json')
+
+print("Records of stock purchases and sales passed back to json")
+
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+#     print(intraday_data)
