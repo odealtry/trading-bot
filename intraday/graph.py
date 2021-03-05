@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-intraday_data = pd.read_json('data_with_buys.json')
+intraday_data = pd.read_json('intraday/data/data_with_buys.json')
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(intraday_data)

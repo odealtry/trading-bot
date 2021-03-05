@@ -16,7 +16,7 @@ class IntradayPull:
 
     def Pull(self):
         api_key = config.AlphaVantageAPIKey
-        period = 60
+        period = 30
         ti = TechIndicators(key=api_key, output_format='pandas')
         ti_data, ti_meta_data = ti.get_ema(symbol=self.ticker, interval='1min',
                                 time_period=period, series_type='close')
