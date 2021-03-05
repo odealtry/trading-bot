@@ -1,6 +1,6 @@
 import pandas as pd
 
-intraday_data = pd.read_json('intraday/intraday_data.json')
+intraday_data = pd.read_json('data.json')
 
 intraday_data = intraday_data[::-1]
 
@@ -96,9 +96,9 @@ print("TOTAL RETURN OVER " + str(gains_count + losses_count) + " TRADES: " + str
 print()
 print()
 
-intraday_data.to_json(path_or_buf='intraday/intraday_data.json')
+intraday_data.to_json(path_or_buf='data_with_buys.json')
 
-print("Stock buy and sell information has been passed back to intraday_data.json")
+print("Records of stock purchases and sales passed back to json")
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(intraday_data)
