@@ -2,7 +2,7 @@ import pandas as pd
 
 intraday_data = pd.read_json('intraday/data/data.json')
 
-intraday_data = intraday_data[::-1]
+# intraday_data = intraday_data[::-1]
 
 intraday_data['buy'] = False
 intraday_data['sell'] = False
@@ -26,22 +26,22 @@ for i in intraday_data.index:
     ema = intraday_data['EMA'][i]
 
     if(close < (ema * 0.99)):
-        print("Undervalued")
         if(pos == 0):
+            print("UNDERVALUED: Close: " + str(close) + "  EMA: " + str(ema))
             buy_price = close
             pos = 1
             intraday_data['buy'][i] = True
             print("Buying now at " + str(buy_price))
 
     elif(close > (ema * 1.01)):
-        print("Uptick")
         if(pos == 1):
+            print("OVERVALUED: Close: " + str(close) + "  EMA: " + str(ema))
             sell_price = close
             pos = 0
             intraday_data['sell'][i] = True
-            print("Selling now at " + str(sell_price))
             pc = (sell_price / buy_price - 1) * 100
             percent_change.append(pc)
+            print("Selling now at " + str(sell_price) + " , percent change of " + str(pc))
 
     if(num == intraday_data['4. close'].count() - 1 and pos == 1):
         sell_price = close
