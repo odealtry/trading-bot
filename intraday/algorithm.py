@@ -13,13 +13,9 @@ pos = 0
 num = 0
 percent_change = []
 
-
-# I need to establish definitively that the algorithm isn't obtaining
-# an unfair advantage that is boosting its performance.
-# I am suspicious of the ema: specifically, that it is
-# accessing information from the future in calculating
-# its average - see buys at market close that are triggered
-# when the ema reflects the following morning's prices.
+class Algorithm:
+    def __init__(dataset):
+        self.dataset = dataset
 
 for i in intraday_data.index:
     close = intraday_data['4. close'][i]
