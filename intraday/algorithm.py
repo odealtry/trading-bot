@@ -7,6 +7,12 @@ intraday_data['sell'] = False
 
 # print(intraday_data)
 
+# next degree of complexity: timing buy signals to come as the stock is
+# regaining momentum, and sell signals as it is losing momentum.
+# revisit dynamic lookback
+# revisit moglen's red white blue strategy.
+
+
 class Algorithm:
     def __init__(self, dataset):
         self.dataset = dataset
@@ -24,17 +30,17 @@ class Algorithm:
             elif self.pos == 1:
                 self.sell_evaluation(i)
             if((self.num == self.dataset['4. close'].count() - 1 and self.pos == 1) or ()):
-                sell_price = close
+                self.sell_price = self.close
                 self.pos = 0
-                print("Selling now at " + str(sell_price))
-                pc = (sell_price / buy_price - 1) * 100
+                print("Selling now at " + str(self.sell_price))
+                pc = (self.sell_price / self.buy_price - 1) * 100
                 self.percent_change.append(pc)
                 self.performance_calculation()
 
             self.num += 1
 
     def buy_evaluation(self, i):
-        if(self.close < (self.ema * 0.99)):
+        if(self.close < (self.ema * 0.97)):
             print("UNDERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.buy_price = self.close
             self.pos = 1
@@ -42,7 +48,7 @@ class Algorithm:
             print("Buying now at " + str(self.buy_price))
 
     def sell_evaluation(self, i):
-        if(self.close > (self.ema * 1.01)):
+        if(self.close > (self.ema * 1.03)):
             print("OVERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.sell(i)
         elif(self.stop_loss(i) == True):
