@@ -11,6 +11,8 @@ intraday_data['sell'] = False
 # regaining momentum, and sell signals as it is losing momentum.
 # revisit dynamic lookback
 # revisit moglen's red white blue strategy.
+# experiment with sma rather than ema (This may require
+# a separate directory/file structure)
 
 
 class Algorithm:
@@ -40,7 +42,7 @@ class Algorithm:
             self.num += 1
 
     def buy_evaluation(self, i):
-        if(self.close < (self.ema * 0.97)):
+        if(self.close < (self.ema * 0.965)):
             print("UNDERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.buy_price = self.close
             self.pos = 1
@@ -48,7 +50,7 @@ class Algorithm:
             print("Buying now at " + str(self.buy_price))
 
     def sell_evaluation(self, i):
-        if(self.close > (self.ema * 1.03)):
+        if(self.close > (self.ema * 1.035)):
             print("OVERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.sell(i)
         elif(self.stop_loss(i) == True):
