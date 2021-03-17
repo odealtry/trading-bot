@@ -42,7 +42,7 @@ class Algorithm:
             self.num += 1
 
     def buy_evaluation(self, i):
-        if(self.close < (self.ema * 0.97)):
+        if(self.close < (self.ema * 0.99)):
             print("UNDERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.buy_price = self.close
             self.pos = 1
@@ -50,7 +50,7 @@ class Algorithm:
             print("Buying now at " + str(self.buy_price))
 
     def sell_evaluation(self, i):
-        if(self.close > (self.ema * 1.02)):
+        if(self.close > (self.ema * 1.01)):
             print("OVERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.sell(i)
         elif(self.stop_loss(i) == True):
@@ -68,7 +68,7 @@ class Algorithm:
         self.dataset['sell'][i] = True
         self.pc = (self.sell_price / self.buy_price - 1) * 100
         self.percent_change.append(self.pc)
-        print("Selling now at " + str(self.sell_price) + " , percent change of " + str(self.pc))
+        print("Selling now at" + str(self.sell_price) + " , percent change of " + str(self.pc))
 
 
     def performance_calculation(self):
