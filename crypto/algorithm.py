@@ -1,10 +1,12 @@
 import pandas as pd
 
-crypto_data = pd.read_json('crypto/data/crypto_data.json', typ='series')
+crypto_data = pd.read_json('crypto/data/data.json', typ='series')
 
 df = pd.DataFrame({'close': crypto_data, 'buy': False, 'sell': False})
 
 crypto_data = df[::-1]
+
+crypto_data['SMA'] = crypto_data.iloc[:,0].rolling(window=3).mean()
 print(crypto_data)
 
 class Algorithm:
@@ -22,6 +24,7 @@ class Algorithm:
         #     print(self.dataset)
         for i in self.dataset.index:
             self.close = self.dataset['close'][i]
+            self.sma = self.dataset['SMA'][i]
             if self.pos == 0:
                 self.buy_evaluation(i)
             elif self.pos == 1:
@@ -34,24 +37,24 @@ class Algorithm:
             self.num += 1
 
     def buy_evaluation(self, i):
-        if(self.close < (self.ema * 0.98)):
-            print("UNDERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
+        if(self.close < (self.sma * 0.98)):
+            print("UNDERVALUED: Close: " + str(self.close) + "  SMA: " + str(self.sma))
             self.buy_price = self.close
             self.pos = 1
             self.dataset['buy'][i] = True
             print("Buying now at " + str(self.buy_price))
 
     def sell_evaluation(self, i):
-        if(self.close > (self.ema * 1.02)):
-            print("OVERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
+        if(self.close > (self.sma * 1.02)):
+            print("OVERVALUED: Close: " + str(self.close) + "  SMA: " + str(self.sma))
             self.sell(i)
         elif(self.stop_loss(i) == True):
-            print("STOP LOSS: Close: " + str(self.close) + "  EMA: " + str(self.ema))
+            print("STOP LOSS: Close: " + str(self.close) + "  SMA: " + str(self.sma))
             self.sell(i)
 
     def stop_loss(self, i):
         self.pc = (self.close / self.buy_price - 1) * 100
-        if self.pc < -2:
+        if self.pc < -1:
             return(True)
 
     def sell(self, i):
@@ -112,17 +115,17 @@ class Algorithm:
         print()
         print()
 
-algo = Algorithm(intraday_data)
+algo = Algorithm(crypto_data)
 
 algo.evaluate()
 
 evaluated_data = algo.dataset
 
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-#     print(evaluated_data)
+with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    print(evaluated_data)
 
-evaluated_data.to_json(path_or_buf='intraday/data/data_with_buys.json')
+evaluated_data.to_json(path_or_buf='crypto/data/data_with_buys.json')
 
-print("Records of stock purchases and sales passed back to json")
+print("Records of crypto purchases and sales passed back to json")
 
 
