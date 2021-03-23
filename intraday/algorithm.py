@@ -1,6 +1,6 @@
 import pandas as pd
 
-intraday_data = pd.read_json('intraday/data/data.json')
+intraday_data = pd.read_json('intraday/data/fortnight_data.json')
 
 intraday_data['buy'] = False
 intraday_data['sell'] = False
@@ -22,6 +22,7 @@ class Algorithm:
         self.num = 0
         self.percent_change = []
         self.sell_price = 0
+        print(f'Data period starting at {self.dataset[0]} and ending at {self.dataset[-1]}.')
 
     def evaluate(self):
         for i in self.dataset.index:
@@ -42,7 +43,7 @@ class Algorithm:
             self.num += 1
 
     def buy_evaluation(self, i):
-        if(self.close < (self.ema * 0.99)):
+        if(self.close < (self.ema * 0.98)):
             print("UNDERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.buy_price = self.close
             self.pos = 1
@@ -50,7 +51,7 @@ class Algorithm:
             print("Buying now at " + str(self.buy_price))
 
     def sell_evaluation(self, i):
-        if(self.close > (self.ema * 1.01)):
+        if(self.close > (self.ema * 1.02)):
             print("OVERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.sell(i)
         elif(self.stop_loss(i) == True):
