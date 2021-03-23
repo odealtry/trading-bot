@@ -4,7 +4,9 @@ buy_and_hold_data = pd.read_json('hold/hold_data.json')
 
 buy_and_hold_data = buy_and_hold_data[::-1]
 
-historic_high = 0
+print(buy_and_hold_data)
+
+historic_high = buy_and_hold_data['4. close'][0]
 pos = 0
 num = 0
 percent_change = []

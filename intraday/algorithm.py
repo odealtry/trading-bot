@@ -1,11 +1,9 @@
 import pandas as pd
 
-intraday_data = pd.read_json('intraday/data/fortnight_data.json')
+intraday_data = pd.read_json('intraday/data/data.json')
 
 intraday_data['buy'] = False
 intraday_data['sell'] = False
-
-# print(intraday_data)
 
 # next degree of complexity: timing buy signals to come as the stock is
 # regaining momentum, and sell signals as it is losing momentum.
@@ -14,7 +12,6 @@ intraday_data['sell'] = False
 # experiment with sma rather than ema (This may require
 # a separate directory/file structure)
 
-
 class Algorithm:
     def __init__(self, dataset):
         self.dataset = dataset
@@ -22,9 +19,12 @@ class Algorithm:
         self.num = 0
         self.percent_change = []
         self.sell_price = 0
-        print(f'Data period starting at {self.dataset[0]} and ending at {self.dataset[-1]}.')
+        print(f'Data period starting at {self.dataset.index[0]} and ending at {self.dataset.index[-1]}.')
 
     def evaluate(self):
+        # print("Full dataset as it enters the algorithm:")
+        # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        #     print(self.dataset)
         for i in self.dataset.index:
             self.close = self.dataset['4. close'][i]
             self.ema = self.dataset['EMA'][i]
@@ -32,12 +32,14 @@ class Algorithm:
                 self.buy_evaluation(i)
             elif self.pos == 1:
                 self.sell_evaluation(i)
-            if((self.num == self.dataset['4. close'].count() - 1 and self.pos == 1) or ()):
-                self.sell_price = self.close
-                self.pos = 0
-                print("Selling now at " + str(self.sell_price))
-                pc = (self.sell_price / self.buy_price - 1) * 100
-                self.percent_change.append(pc)
+            if((self.num == self.dataset['4. close'].count() - 1 and self.pos == 1)):
+                # self.sell_price = self.close
+                # self.pos = 0
+                # print("Selling now at " + str(self.sell_price))
+                # pc = (self.sell_price / self.buy_price - 1) * 100
+                # self.percent_change.append(pc)
+                print("Reached the end of the dataset. Selling holding")
+                self.sell(i)
                 self.performance_calculation()
 
             self.num += 1
@@ -60,7 +62,7 @@ class Algorithm:
 
     def stop_loss(self, i):
         self.pc = (self.close / self.buy_price - 1) * 100
-        if self.pc < -3:
+        if self.pc < -2:
             return(True)
 
     def sell(self, i):
@@ -69,10 +71,13 @@ class Algorithm:
         self.dataset['sell'][i] = True
         self.pc = (self.sell_price / self.buy_price - 1) * 100
         self.percent_change.append(self.pc)
-        print("Selling now at" + str(self.sell_price) + " , percent change of " + str(self.pc))
+        print("Selling now at " + str(self.sell_price) + " , percent change of " + str(self.pc))
 
 
     def performance_calculation(self):
+        # print("After calculations, data looks like this:")
+        # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        #   print(self.dataset)
         self.gains = 0
         self.gains_count = 0
         self.losses = 0
@@ -121,8 +126,6 @@ class Algorithm:
 algo = Algorithm(intraday_data)
 
 algo.evaluate()
-
-algo.performance_calculation()
 
 evaluated_data = algo.dataset
 
