@@ -12,6 +12,8 @@ intraday_data['sell'] = False
 # experiment with sma rather than ema (This may require
 # a separate directory/file structure)
 
+print(intraday_data)
+
 class Algorithm:
     def __init__(self, dataset):
         self.dataset = dataset
@@ -32,14 +34,13 @@ class Algorithm:
                 self.buy_evaluation(i)
             elif self.pos == 1:
                 self.sell_evaluation(i)
-            if((self.num == self.dataset['4. close'].count() - 1 and self.pos == 1)):
-                # self.sell_price = self.close
-                # self.pos = 0
-                # print("Selling now at " + str(self.sell_price))
-                # pc = (self.sell_price / self.buy_price - 1) * 100
-                # self.percent_change.append(pc)
-                print("Reached the end of the dataset. Selling holding")
+
+            if((self.num == (self.dataset['4. close'].count() - 1)) and (self.pos == 1)):
+                print("Reached the end of the dataset. Selling holding and calculating performance:")
                 self.sell(i)
+                self.performance_calculation()
+            elif((self.num == self.dataset['4. close'].count() - 1) and (self.pos == 0)):
+                print("Reached the end of the dataset. Calculating performance:")
                 self.performance_calculation()
 
             self.num += 1
@@ -58,6 +59,9 @@ class Algorithm:
             self.sell(i)
         elif(self.stop_loss(i) == True):
             print("STOP LOSS: Close: " + str(self.close) + "  EMA: " + str(self.ema))
+            self.sell(i)
+        elif(self.close > (self.buy_price * 1.065)):
+            print("Taking win")
             self.sell(i)
 
     def stop_loss(self, i):
