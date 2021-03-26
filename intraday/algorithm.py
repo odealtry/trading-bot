@@ -60,7 +60,7 @@ class Algorithm:
         elif(self.stop_loss(i) == True):
             print("STOP LOSS: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.sell(i)
-        elif(self.close > (self.buy_price * 1.065)):
+        elif(self.close > (self.buy_price * 1.08)):
             print("Taking win")
             self.sell(i)
 
