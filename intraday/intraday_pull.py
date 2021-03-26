@@ -57,9 +57,9 @@ intraday_data = stock.data
 # print(ts_close)
 
 # print("Final concatenation:")
-# print(intraday_data)
-with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(intraday_data)
+print(intraday_data)
+# with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    # print(intraday_data)
 
 
 
