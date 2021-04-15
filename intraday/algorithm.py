@@ -46,7 +46,7 @@ class Algorithm:
             self.num += 1
 
     def buy_evaluation(self, i):
-        if(self.close < (self.ema * 0.98)):
+        if(self.close < (self.ema * 0.985)):
             print("UNDERVALUED: Close: " + str(self.close) + "  EMA: " + str(self.ema))
             self.buy_price = self.close
             self.pos = 1
