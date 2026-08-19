@@ -1,0 +1,12 @@
+# Core
+pandas>=2.0
+numpy>=1.24
+
+# Charting
+matplotlib>=3.7
+
+# Live data (not needed when running with --fixture)
+alpha-vantage>=2.3
+
+# Tests
+pytest>=7.4
